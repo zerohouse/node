@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect('http://54.65.20.191:80');
 var game = {usablePoint : 99, round:1};
 var warringhtml = $('warring').html();
 
