@@ -94,14 +94,13 @@ function login(fbid, fbname){
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
-                $('#users').append("<li style='cursor:auto;color:darkred'>" + key + '( 나 )</li>');
+                $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + '( 나 )</li>');
                 return;
             }
-            $('#users').append('<li>' + key + '</li>');
+            $('#users').append("<li data-id="+ value.id + ">" + value.name + '</li>');
             $('#users > li:last-child').click(function (){
-                var rivalname = $(this).text();
-                if(confirm(rivalname+"님께 게임 요청을 보낼까요?"))
-                    socket.emit('challenge', rivalname);
+                if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
+                    socket.emit('challenge', value.id);
             });
 
         });
