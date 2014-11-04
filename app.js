@@ -62,7 +62,6 @@ io.sockets.on('connection', function (socket) {
 		socket.game.point -= point;
 		var phase = whichPhase(socket.game.point);
 		socket.game.phase = phase;
-		console.log(phase);
 
 		rival.emit('blackwhite', blackWhite(point));
 		updateGame(rival, socket);
@@ -77,7 +76,6 @@ io.sockets.on('connection', function (socket) {
 		doTurn(true);
 		rival.game.submittedPoint = -1;
 		socket.game.submittedPoint = -1;
-		console.log('턴끝!');
 
 
 
@@ -141,7 +139,6 @@ io.sockets.on('connection', function (socket) {
 		socket.index = index;
 
 
-		console.log(index, username);
 		sockets.push(socket);
 		users[username] = {name : username, index : index};
 
@@ -164,7 +161,6 @@ io.sockets.on('connection', function (socket) {
 
 
 	function whichPhase(point){
-		console.log(point);
 		if (point>79)
 			return 5;
 		if (point>59)

@@ -31,7 +31,6 @@ socket.on('challenge', function (username) {
     }
     else{
         socket.emit('decline', username);
-        console.log('decline')
     }
 });
 
@@ -72,15 +71,9 @@ socket.on('updateGame', function (mydata, rivaldata) {
     $('#myWin').text(mydata.win);
     $('#youWin').text(rivaldata.win);
     phaseAdopt(mydata.phase, rivaldata.phase);
-    console.log(mydata);
-    console.log(rivaldata);
 
 });
 
-socket.on('alertPoint', function (blackflag, phase) {
-    console.log(blackflag);
-    console.log(phase);
-});
 
 socket.on('turnOver', function (isWin) {
     if(isWin){
@@ -102,7 +95,6 @@ socket.on('rivaldoing', function () {
 });
 
 socket.on('doTurn', function (isFirst) {
-    console.log('doTurn');
     $('#submitpoint').removeAttr('disabled');
     if(isFirst){
         status("당신은 선 플레이어 입니다.<br>사용할 포인트를 입력해주세요.");
@@ -179,7 +171,6 @@ function phaseAdopt(myphase, rivalphase){
     function phase(phase, domId){
         $(domId+' li').css('opacity',1);
         for (var i=0;i<5-phase;i++){
-            console.log(domId+i);
             $(domId+' li:eq('+i+')').css('opacity',0.2);
         }
     }
