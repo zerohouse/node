@@ -1,9 +1,11 @@
 var socket = io.connect('http://localhost:80');
-var game = {usablePoint : 99, round:1, rival: ""};
-var warringhtml = $('warring').html();
+var game = {usablePoint : 99, round:1, rival: "", myname:''};
+var warringhtml = "<font size='6'><br></font>흑과백2<br><font size='4'>게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 아이디를 눌러주세요.</font>";
 
 socket.on('connect', function(){
-    socket.emit('adduser', prompt("게임에서 사용할 이름을 입력해주세요."));
+    game.myname = prompt("게임에서 사용할 이름을 입력해주세요.");
+
+    socket.emit('adduser', game.myname);
 });
 
 socket.on('updatechat', function (username, data) {
@@ -23,6 +25,8 @@ socket.on('out', function (username) {
 socket.on('updateusers', function(data) {
     $('#users').empty();
     $.each(data, function(key, value) {
+        if(key == game.myname)
+            return;
         $('#users').append('<li>' + key + '</li>');
         $('#users > li:last-child').click(function (){
             var rivalname = $(this).text();
