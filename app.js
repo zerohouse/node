@@ -28,37 +28,36 @@ io.sockets.on('connection', function (socket) {
 	socket.on('sendchat', function (data) {
 		if(socket.game!=undefined){
 			var rival = sockets[users[socket.game.rival].index];
-			rival.emit('updatechat', socket.username, data);
-			socket.emit('updatechat', socket.username, data);
+			rival.emit('updatechat', users[socket.fbid].name, data);
+			socket.emit('updatechat', users[socket.fbid].name, data);
 			return;
 		}
-		io.sockets.emit('updatechat', socket.username, data);
+		io.sockets.emit('updatechat', users[socket.fbid].name, data);
 	});
 
-	socket.on('challenge', function (username) {
-		sockets[users[username].index].emit('challenge', socket.username);
+	socket.on('challenge', function (facebookId) {
+		sockets[users[facebookId].index].emit('challenge', users[facebookId].name, facebookId);
 	});
 
-	socket.on('gameStart', function (username) {
-		var rival = sockets[users[username].index];
-		rival.join(username);
-		socket.join(username);
+	socket.on('gameStart', function (facebookId) {
+		var rival = sockets[users[facebookId].index];
+		rival.join(facebookId);
+		socket.join(facebookId);
 
-		rival.game = {room :username, point :99, phase : 5, win:0, rival: socket.username, submittedPoint : -1};
-		socket.game = {room :username, point :99, phase : 5, win:0, rival: rival.username, submittedPoint : -1};
+		rival.game = {room :facebookId, point :99, phase : 5, win:0, rival: socket.fbid, submittedPoint : -1};
+		socket.game = {room :facebookId, point :99, phase : 5, win:0, rival: rival.fbid, submittedPoint : -1};
 
-		io.to(username).emit('updatechat', '붕대맨' ,'게임을 시작합니다.');
+		io.to(facebookId).emit('updatechat', '붕대맨' ,'게임을 시작합니다.');
 
 		if(Math.random(1)>0.5){
-			socket.emit('start', true, rival.username);
-			rival.emit('start', false, socket.username);
+			socket.emit('start', true, users[rival.fbid].name, rival.fbid);
+			rival.emit('start', false, users[socket.fbid].name, socket.fbid);
 			updateGame(socket, rival);
 			return;
 		}
-		socket.emit('start', false, rival.username);
-		rival.emit('start', true, socket.username);
+		socket.emit('start', false, users[rival.fbid].name ,rival.fbid);
+		rival.emit('start', true, users[socket.fbid].name ,socket.fbid);
 		updateGame(socket, rival);
-
 
 	});
 
@@ -134,29 +133,28 @@ io.sockets.on('connection', function (socket) {
 
 
 
-	socket.on('decline', function (username) {
-		sockets[users[username].index].emit('decline', socket.username);
+	socket.on('decline', function (facebookId) {
+		sockets[users[facebookId].index].emit('decline', users[socket.fbid].name);
 	});
 
 
 
-	socket.on('adduser', function(username){
-		socket.username = username;
+	socket.on('adduser', function(facebookid, fbname){
+		socket.fbid = facebookid;
 		socket.index = index;
 
-
 		sockets.push(socket);
-		users[username] = {name : username, index : index};
+		users[facebookid] = {name : fbname, index : index};
 
 		index++;
 
 		socket.emit('updatechat', '붕대맨', '흑과백에 접속하셨습니다.');
-		socket.broadcast.emit('updatechat', '붕대맨', username + '님이 오셨습니다.');
+		socket.broadcast.emit('updatechat', '붕대맨', fbname + '님이 오셨습니다.');
 		io.sockets.emit('updateusers', users);
 	});
 
 	socket.on('disconnect', function(){
-		delete users[socket.username];
+		delete users[socket.fbid];
 		io.sockets.emit('updateusers', users);
 		if(socket.game != undefined){
 			try {
@@ -169,7 +167,7 @@ io.sockets.on('connection', function (socket) {
 
 			}
 		}
-		socket.broadcast.emit('updatechat', '붕대맨', socket.username + '님이 나갔습니다.');
+		socket.broadcast.emit('updatechat', '붕대맨', socket.fbid + '님이 나갔습니다.');
 	});
 
 
