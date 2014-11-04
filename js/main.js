@@ -1,5 +1,5 @@
-var socket = io.connect('http://54.65.20.191:80');
-var game = {usablePoint : 99, round:1};
+var socket = io.connect('http://localhost:80');
+var game = {usablePoint : 99, round:1, rival: ""};
 var warringhtml = $('warring').html();
 
 socket.on('connect', function(){
@@ -10,6 +10,14 @@ socket.on('updatechat', function (username, data) {
     var con = $('#conversation');
     con.append('<li>'+username + ': ' + data + '</li>');
     con.scrollTop(1000000);
+});
+
+socket.on('out', function (username) {
+    if(game.rival==username){
+        setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
+        );
+        status('상대가 나갔습니다.');
+    }
 });
 
 socket.on('updateusers', function(data) {
@@ -52,7 +60,7 @@ socket.on('loser', function(){
 
 socket.on('start', function (type, rivalname) {
             phaseAdopt(5,5);
-            game = {usablePoint : 99, round:1};
+            game = {usablePoint : 99, round:1, rival: rivalname};
             status(rivalname+"님 과의 게임이 시작되었습니다.<br>");
             $('#playerid').text(rivalname);
             roundUpdate();

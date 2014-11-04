@@ -153,6 +153,7 @@ io.sockets.on('connection', function (socket) {
 		delete users[socket.username];
 		io.sockets.emit('updateusers', users);
 		socket.broadcast.emit('updatechat', '붕대맨', socket.username + '님이 나갔습니다.');
+		socket.broadcast.emit('out', socket.username);
 	});
 
 
