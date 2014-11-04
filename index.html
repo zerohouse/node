@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="warring"><font size="6"><br></font>흑과백2<br><font size="4">게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 아이디를 눌러주세요.</font></div>
+        <div>
+            <ul id="dashboard">
+                <li id="playerid">player</li>
+                <li id="youWin">0</li>
+                <li>Me</li>
+                <li id="myWin">0</li>
+            </ul>
+
+        </div>
+            <ul id="blackwhite">
+                <li>흑(0~9)</li>
+                <li>백(10~)</li>
+            </ul>
+
+        <div id="gameBody">
+            <div id="char"></div>
+            <ul id="rivalblock" class="block">
+                <li>80~99</li>
+                <li>60~79</li>
+                <li>40~59</li>
+                <li>20~39</li>
+                <li>0~19</li>
+            </ul>
+            <ul id="myblock" class="block">
+                <li>80~99</li>
+                <li>60~79</li>
+                <li>40~59</li>
+                <li>20~39</li>
+                <li>0~19</li>
+            </ul>
+
+            <div id="pointWrap">
+                <input id="point" placeholder="0" maxlength="2"/>
+                <input id="submitpoint" type="button" value="포인트제출" class="btn" disabled="disabled"/>
+            </div>
+        </div>
+    </div>
+
+
+    <div class='foot' id="usercon">
+            <div class="foottitle">현재 접속자</div>
+            <ul class="list" id="users" oncontextmenu="return false;"></ul>
+    </div>
+
+
+
+    <div class='foot' id="chat">
+            <div class="foottitle">채팅</div>
+            <ul class="list" id="conversation"></ul>
+            <div id="inputarea">
+                <input id="data"/>
+                <input type="button" id="datasend" value="send" class="btn" />
+            </div>
+    </div>
+
+    <div class='foot' id="statuscon">
+            <div class="foottitle">상태메시지</div>
+            <ul class="list" id="status"></ul>
+    </div>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
