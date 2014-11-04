@@ -4,7 +4,7 @@ var express = require('express')
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server)
 
-server.listen(80);
+server.listen(8080);
 
 // 라우팅 
 app.get('/', function (req, res) {
@@ -26,6 +26,12 @@ var index = 0;
 io.sockets.on('connection', function (socket) {
 
 	socket.on('sendchat', function (data) {
+		if(socket.game!=undefined){
+			var rival = sockets[users[socket.game.rival].index];
+			rival.emit('updatechat', socket.username, data);
+			socket.emit('updatechat', socket.username, data);
+			return;
+		}
 		io.sockets.emit('updatechat', socket.username, data);
 	});
 
@@ -152,8 +158,18 @@ io.sockets.on('connection', function (socket) {
 	socket.on('disconnect', function(){
 		delete users[socket.username];
 		io.sockets.emit('updateusers', users);
+		if(socket.game != undefined){
+			try {
+				var rival = sockets[users[socket.game.rival].index];
+				rival.leave(socket.game.room);
+				rival.emit('out');
+				rival.game = undefined;
+			}
+			catch(err){
+
+			}
+		}
 		socket.broadcast.emit('updatechat', '붕대맨', socket.username + '님이 나갔습니다.');
-		socket.broadcast.emit('out', socket.username);
 	});
 
 
