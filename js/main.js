@@ -165,6 +165,7 @@ function login(fbid, fbname){
     socket.on('winner', function(){
         socket.emit('usedpoints', usedpoints);
         warring('게임 승리!!');
+        winplus();
         status('게임에서 승리하였습니다.<br>게임이 종료되었습니다.');
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
         );
@@ -172,6 +173,13 @@ function login(fbid, fbname){
         $('#chattitle').text("채팅");
         $('#conversation').empty();
         $('#conversation').append("<li>붕대맨 : 게임이 끝났습니다. 새로운 상대를 선택해 보세요.</li>");
+
+        function winplus(){
+            var gamewin = $('#gamewin');
+            var win = gamewin.text();
+            win++;
+            gamewin.text(win);
+        }
     });
 
     socket.on('loser', function(){

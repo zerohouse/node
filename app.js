@@ -182,11 +182,11 @@ io.sockets.on('connection', function (socket) {
 				if(val!=null){
 					win = val;
 					socket.emit('gamewinupdate', win);
+					users[facebookid].gamewin = win;
 				}
 			});
 
 		users[facebookid] = {name : fbname, index : index, gamewin: win};
-
 		index++;
 
 		socket.emit('updatechat', '붕대맨', '흑과백에 접속하셨습니다.');
