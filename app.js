@@ -127,6 +127,8 @@ io.sockets.on('connection', function (socket) {
 
 			if(parseInt(submit)<parseInt(point)){
 				socket.game.win++;
+				console.log(users[socket.fbid].gamewin);
+				console.log(users[rival.fbid].gamewin);
 				if(socket.game.win>4){
 					var wins = users[socket.fbid].gamewin+1;
 					console.log(wins);
