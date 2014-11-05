@@ -124,7 +124,7 @@ io.sockets.on('connection', function (socket) {
 				return;
 			}
 
-			if(parseInt(submit)<pasrseInt(point)){
+			if(parseInt(submit)<parseInt(point)){
 				socket.game.win++;
 				if(socket.game.win>4){
 					users[socket.fbid].gamewin++;
