@@ -29,8 +29,8 @@ io.sockets.on('connection', function (socket) {
 	socket.on('sendchat', function (data) {
 		if(socket.game!=undefined){
 			var rival = socket.broadcast.to(socket.game.room);
-			rival.emit('updatechat', users[socket.fbid].name, data);
-			socket.emit('updatechat', users[socket.fbid].name, data);
+			rival.emit('updatechat', users[socket.fbid].name, data, true);
+			socket.emit('updatechat', users[socket.fbid].name, data, true);
 			return;
 		}
 		io.sockets.emit('updatechat', users[socket.fbid].name, data);

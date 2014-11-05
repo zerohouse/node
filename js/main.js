@@ -102,8 +102,8 @@ function login(fbid, fbname){
         socket.emit('adduser', game.myid, fbname);
     });
 
-    socket.on('updatechat', function (username, data) {
-        if(game.ing && !(username==rival.name || username==$('#logintitle').text() ))
+    socket.on('updatechat', function (username, data, whisper) {
+        if(game.ing && !whisper)
             return;
         var con = $('#conversation');
         con.append('<li>'+username + ': ' + data + '</li>');
