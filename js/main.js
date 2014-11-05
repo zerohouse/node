@@ -7,9 +7,11 @@
 
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
-            fbConnected();
+	    fbConnected();
         }
     }
+
+    var statuslogin = false;
 
     function checkLoginState() {
         FB.getLoginStatus(function(response) {
@@ -30,7 +32,7 @@
             statusChangeCallback(response);
         });
 
-        FB.Event.subscribe('auth.statusChange', function(){location.reload();});
+        FB.Event.subscribe('auth.statusChange', function(){checkLoginState();});
     };
 
     (function(d, s, id) {
@@ -42,7 +44,11 @@
     }(document, 'script', 'facebook-jssdk'));
 
     function fbConnected() {
-        console.log('Welcome!  Fetching your information.... ');
+	if(statuslogin)
+	return;        
+	
+	statuslogin = true;
+	console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
             login(response.id, response.name);
         });
@@ -65,7 +71,7 @@ function login(fbid, fbname){
     status('로그인 되었습니다.');
     status('현재 접속자 창에서 다른 사용자의 이름을 눌러 대결을 신청해 보세요.');
 
-    var socket = io.connect('http://localhost:8080');
+    var socket = io.connect('http://54.65.20.191');
     var game = {usablePoint : 99, round:1, rival: "", myid: fbid};
 
     $('#logintitle').text(fbname);
