@@ -120,7 +120,6 @@ function login(fbid, fbname){
     });
 
     socket.on('updateusers', function(data) {
-        console.log(data);
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
@@ -147,8 +146,11 @@ function login(fbid, fbname){
 
     socket.on('yourusedpoints', function(othersusedpoints){
         var result = "이번 게임에서 사용한 포인트<br>";
-        console.log(usedpoints.length);
         for(var i=0; i<usedpoints.length;i++){
+            if(parseInt(usedpoints[i])<10)
+                usedpoints[i] = " " + usedpoints[i];
+            if(parseInt(othersusedpoints[i])<10)
+                othersusedpoints[i] = " " + othersusedpoints[i];
             result += (i+1) + "라운드 [" + "나 : " + usedpoints[i] +", 상대 : " + othersusedpoints[i] + "]<br>";
         }
         status(result);

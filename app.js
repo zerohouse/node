@@ -119,8 +119,6 @@ io.sockets.on('connection', function (socket) {
 
 		function turnOver(point){
 			var submit = socket.game.submittedPoint;
-			console.log(submit);
-			console.log(point);
 			if(submit==-1){
 				setTimeout(turnOver(point), 1000);
 				console.log('err');
