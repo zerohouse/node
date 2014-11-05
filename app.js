@@ -28,7 +28,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('sendchat', function (data) {
 		if(socket.game!=undefined){
-			var rival = sockets[users[socket.game.rival].index];
+			var rival = socket.broadcast.to(socket.game.room);
 			rival.emit('updatechat', users[socket.fbid].name, data);
 			socket.emit('updatechat', users[socket.fbid].name, data);
 			return;
@@ -39,8 +39,11 @@ io.sockets.on('connection', function (socket) {
 	socket.on('usedpoints', function(usedpoints){
 		try{
 			console.log(usedpoints);
-		var rival = sockets[users[socket.game.rival].index];
-		rival.emit('yourusedpoints', usedpoints);
+			var rival = socket.broadcast.to(socket.game.room);
+			rival.emit('yourusedpoints', usedpoints);
+			setTimeout(function(){
+				socket.leave(rival.fbid);
+			}, 1000);
 		}
 		catch(err){
 
@@ -48,6 +51,10 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('challenge', function (facebookId) {
+		if(sockets[users[facebookId].index].game!=undefined){
+			socket.emit('updatechat', '붕대맨', '상대가 게임 중입니다.');
+			return;
+		}
 		sockets[users[facebookId].index].emit('challenge', users[socket.fbid].name, socket.fbid);
 	});
 
@@ -76,7 +83,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('submitpoint', function (point) {
 		try {
-			var rival = sockets[users[socket.game.rival].index];
+			var rival = socket.broadcast.to(socket.game.room);
 
 			socket.game.point -= point;
 			var phase = whichPhase(socket.game.point);
@@ -171,11 +178,12 @@ io.sockets.on('connection', function (socket) {
 
 
 	socket.on('adduser', function(facebookid, fbname){
+		if(users[facebookId]=undefined){
+			socket.emit('updatechat', '붕대맨', '이미 접속중입니다.');
+			return;
+		}
 		socket.fbid = facebookid;
-		socket.index = index;
-
 		sockets.push(socket);
-
 		var win = 0;
 
 			redisClient.get(facebookid, function(err, val){
@@ -195,13 +203,14 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('disconnect', function(){
-		io.sockets.emit('updateusers', users);
+
 		if(socket.game != undefined){
 			try {
 				var rival = sockets[users[socket.game.rival].index];
 				rival.leave(socket.game.room);
 				rival.emit('out');
 				rival.game = undefined;
+				rival.leave(socket.fbid);
 			}
 			catch(err){
 
@@ -212,6 +221,7 @@ io.sockets.on('connection', function (socket) {
 		}
 		catch(err){}
 		delete users[socket.fbid];
+		io.sockets.emit('updateusers', users);
 	});
 
 
