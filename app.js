@@ -154,7 +154,6 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('disconnect', function(){
-		//delete users[socket.fbid];
 		io.sockets.emit('updateusers', users);
 		if(socket.game != undefined){
 			try {
@@ -167,7 +166,11 @@ io.sockets.on('connection', function (socket) {
 
 			}
 		}
-		socket.broadcast.emit('updatechat', '붕대맨', users[socket.fbid].name + '님이 나갔습니다.');
+		try {
+			socket.broadcast.emit('updatechat', '붕대맨', users[socket.fbid].name + '님이 나갔습니다.');
+		}
+		catch(err){}
+		delete users[socket.fbid];
 	});
 
 

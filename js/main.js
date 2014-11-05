@@ -103,7 +103,8 @@ function login(fbid, fbname){
     });
 
     socket.on('out', function () {
-            setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
+            setTimeout(function(){
+                    $('#warring').html(warringhtml).show();}, 4000
             );
             status('상대가 나갔습니다.');
             $('#usercon').show(500);
@@ -196,9 +197,10 @@ function login(fbid, fbname){
 
     socket.on('turnOver', function (isWin) {
         if(isWin){
-            status('승점을 획득하였습니다.');
+            status((game.round-1)+'라운드에서 승리하여 승점을 획득하였습니다.');
             $('#myWin').text(parseInt($('#myWin').text())+1);
             warring((game.round-1)+'라운드 승리!');
+            roundUpdate();
             return;
         }
         $('#youWin').text(parseInt($('#youWin').text())+1);
