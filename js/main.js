@@ -148,7 +148,7 @@ function login(fbid, fbname){
     socket.on('yourusedpoints', function(othersusedpoints){
         var result = "이번 게임에서 사용한 포인트<br>";
         console.log(usedpoints.length);
-        for(var i=0; i<usedpoints.length;){
+        for(var i=0; i<usedpoints.length;i++){
             result += (i+1) + "라운드 [" + "나 : " + usedpoints[i] +", 상대 : " + othersusedpoints[i] + "]<br>";
         }
         status(result);
