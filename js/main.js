@@ -60,12 +60,13 @@
 
 function login(fbid, fbname){
 
-
+    status('로그인 되었습니다.');
+    status('현재 접속자 창에서 다른 사용자의 이름을 눌러 대결을 신청해 보세요.');
 
     var socket = io.connect('http://localhost:8080');
     var game = {usablePoint : 99, round:1, rival: "", myid: fbid};
 
-    $('#logintitle').text(fbid);
+    $('#logintitle').text(fbname);
     $('#logincontents').html('<br>안녕하세요! 흑과 백2입니다.');
     $('#fblogin').hide(500);
     var warringhtml = "<font size='6'><br></font>흑과백2<br><font size='4'>게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 아이디를 눌러주세요.</font>";
