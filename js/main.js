@@ -29,6 +29,8 @@
         FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
         });
+
+        FB.Event.subscribe('login', fbConnected);
     };
 
     (function(d, s, id) {
@@ -38,8 +40,6 @@
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
 
-        FB.Event.subscribe('login', fbConnected);
-        
     }(document, 'script', 'facebook-jssdk'));
 
     function fbConnected() {
@@ -98,7 +98,7 @@ function login(fbid, fbname){
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
-                $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + '( 나 )</li>');
+                $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + ' ( 나 )</li>');
                 return;
             }
             $('#users').append("<li data-id="+ value.id + ">" + value.name + '</li>');
