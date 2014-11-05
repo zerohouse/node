@@ -48,6 +48,7 @@ ul, li{
     height:100px;
     width:320px;
     margin:auto;
+    overflow:hidden;
 }
 
 #dashboard li{

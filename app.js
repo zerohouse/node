@@ -40,7 +40,7 @@ io.sockets.on('connection', function (socket) {
 		try{
 			console.log(usedpoints);
 		var rival = sockets[users[socket.game.rival].index];
-		rival.emit('usedpoints', usedpoints);
+		rival.emit('yourusedpoints', usedpoints);
 		}
 		catch(err){
 
@@ -124,10 +124,9 @@ io.sockets.on('connection', function (socket) {
 				return;
 			}
 
-			if(submit<point){
+			if(parseInt(submit)<pasrseInt(point)){
 				socket.game.win++;
 				if(socket.game.win>4){
-
 					users[socket.fbid].gamewin++;
 					redisClient.set(socket.fbid, users[socket.fbid].gamewin, function(err, val){
 					});
