@@ -363,8 +363,16 @@ ul, li{
         padding: 2%;
     }
 
+    #usercon{
+        height:inherit;
+    }
+
+    #users{
+        position: relative;
+        height: inherit;
+    }
     .foot{
-        padding-top: 45px;
+        padding-top: 40px;
     }
 
     #inputarea {
