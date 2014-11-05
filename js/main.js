@@ -145,6 +145,9 @@ function login(fbid, fbname){
     });
 
     socket.on('yourusedpoints', function(othersusedpoints){
+
+        status(serialize(usedpoints, othersusedpoints));
+
         function serialize(me, you){
             var result = "이번 게임에서 사용한 포인트<br>";
             for(var i=0; i<me.length;i++){
@@ -157,7 +160,6 @@ function login(fbid, fbname){
             return result;
         }
 
-        status(result);
     });
 
     socket.on('winner', function(){
