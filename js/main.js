@@ -37,6 +37,9 @@
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
+
+        FB.Event.subscribe('login', fbConnected);
+        
     }(document, 'script', 'facebook-jssdk'));
 
     function fbConnected() {

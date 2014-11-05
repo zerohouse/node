@@ -167,7 +167,7 @@ ul, li{
     margin: auto;
     font-size: 17px;
     text-align: center;
-    font-weight: 900;
+    font-weight: 700;
     position: absolute;
     width: 100%;
     background-color: #0099cc;
@@ -223,6 +223,15 @@ ul, li{
     overflow-y:auto;
     overflow-x:hidden;
     height:158px;
+}
+#conversation{
+    position: absolute;
+    bottom: 30px;
+    height: 189px;
+    width: 100%;
+}
+#conversation li{
+    font-size:13px;
 }
 
 .list li{
