@@ -140,7 +140,7 @@ function login(fbid, fbname){
     });
 
     socket.on('winner', function(){
-        warring('게임 패배ㅠㅠ');
+        warring('게임 승리!!');
         status('게임에서 승리하였습니다.<br>게임이 종료되었습니다.');
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
         );
@@ -247,6 +247,8 @@ function login(fbid, fbname){
 
         $('#datasend').click( function() {
             var message = $('#data').val();
+            if(message=="")
+                return;
             $('#data').val('');
             $('#data').focus();
             socket.emit('sendchat', message);
@@ -259,8 +261,15 @@ function login(fbid, fbname){
             }
         });
 
+        $('#point').keypress(function(e) {
+            if(e.which == 13) {
+                $('#submitpoint').focus().click();
+            }
+        });
+
         $('#submitpoint').click(function (){
             var point = $('#point').val();
+
             if (point =="")
                 return;
 
@@ -268,7 +277,9 @@ function login(fbid, fbname){
                 socket.emit('submitpoint', point);
                 $('#submitpoint').attr('disabled', '');
                 $('#point').css('border','none');
-                return;
+                status(point+' 포인트를 냈습니다.');
+                warrring(point + '포인트 제출')
+               return;
             }
             status("Err! : 0~"+game.usablePoint+" 사이의 포인트를 입력해주세요.")
             $('#point').val('');
