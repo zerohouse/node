@@ -75,25 +75,28 @@ io.sockets.on('connection', function (socket) {
 
 
 	socket.on('submitpoint', function (point) {
-		var rival = sockets[users[socket.game.rival].index];
-		socket.game.point -= point;
-		var phase = whichPhase(socket.game.point);
-		socket.game.phase = phase;
+		try {
+			var rival = sockets[users[socket.game.rival].index];
 
-		rival.emit('blackwhite', blackWhite(point));
-		updateGame(rival, socket);
+			socket.game.point -= point;
+			var phase = whichPhase(socket.game.point);
+			socket.game.phase = phase;
 
-		if(socket.game.submittedPoint == -1){
-			rival.game.submittedPoint = point;
-			socket.game.submittedPoint = point;
-			doTurn(false);
-			return;
+			rival.emit('blackwhite', blackWhite(point));
+			updateGame(rival, socket);
+
+			if (socket.game.submittedPoint == -1) {
+				rival.game.submittedPoint = point;
+				socket.game.submittedPoint = point;
+				doTurn(false);
+				return;
+			}
+			turnOver(point);
+			doTurn(true);
+			rival.game.submittedPoint = -1;
+			socket.game.submittedPoint = -1;
 		}
-		turnOver(point);
-		doTurn(true);
-		rival.game.submittedPoint = -1;
-		socket.game.submittedPoint = -1;
-
+		catch(err){console.log(err);}
 
 
 		function blackWhite(point){
