@@ -26,11 +26,11 @@
             version    : 'v2.1' // use version 2.1
         });
 
-
-        FB.Event.subscribe('auth.statusChange', function(){ FB.getLoginStatus(function(response) {
+        FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
-            })
         });
+
+        FB.Event.subscribe('auth.statusChange', function(){location.reload();});
     };
 
     (function(d, s, id) {
