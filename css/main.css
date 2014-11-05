@@ -350,7 +350,7 @@ ul, li{
     }
 
     #gamebody {
-        top: 20;
+        top: 20px;
         width: 100%;
         position: relative;
         clear: both;
@@ -370,6 +370,11 @@ ul, li{
 
     #usercon{
         height:inherit;
+    }
+
+    #conversation{
+        left: 0;
+        bottom: 35px;
     }
 
     #users{
