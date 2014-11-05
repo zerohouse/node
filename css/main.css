@@ -274,3 +274,15 @@ ul, li{
     text-align:center;
     cursor:pointer;
 }
+
+#gamewin{
+    width: 115px;
+    height: 120px;
+    background-image: url('trophy.png');
+    margin: auto;
+    background-size: 100% 100%;
+    font-size: 59px;
+    text-align: center;
+    line-height: 95px;
+    display:none;
+}

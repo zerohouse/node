@@ -3,6 +3,7 @@ var express = require('express')
 	, http = require('http')
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server)
+var redisClient = require('redis').createClient();
 
 server.listen(80);
 
@@ -108,6 +109,11 @@ io.sockets.on('connection', function (socket) {
 			if(submit<point){
 				socket.game.win++;
 				if(socket.game.win>4){
+
+					users[socket.fbid].gamewin++;
+					redisClient.set(socket.fbid, users[socket.fbid].gamewin, function(err, val){
+					});
+
 					socket.emit('winner');
 					rival.emit('loser');
 					return;
@@ -118,6 +124,9 @@ io.sockets.on('connection', function (socket) {
 			}
 			rival.game.win++;
 			if(rival.game.win>4){
+				users[rival.fbid].gamewin++;
+				redisClient.set(rival.fbid, users[rival.fbid].gamewin, function(err, val){
+				});
 				rival.emit('winner');
 				socket.emit('loser');
 				return;
@@ -144,7 +153,17 @@ io.sockets.on('connection', function (socket) {
 		socket.index = index;
 
 		sockets.push(socket);
-		users[facebookid] = {name : fbname, index : index};
+
+		var win = 0;
+
+			redisClient.get(facebookid, function(err, val){
+				if(val!=null){
+					win = val;
+					socket.emit('gamewinupdate', win);
+				}
+			});
+
+		users[facebookid] = {name : fbname, index : index, gamewin: win};
 
 		index++;
 
