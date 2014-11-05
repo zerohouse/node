@@ -145,14 +145,18 @@ function login(fbid, fbname){
     });
 
     socket.on('yourusedpoints', function(othersusedpoints){
-        var result = "이번 게임에서 사용한 포인트<br>";
-        for(var i=0; i<usedpoints.length;i++){
-            if(parseInt(usedpoints[i])<10)
-                usedpoints[i] = " " + usedpoints[i];
-            if(parseInt(othersusedpoints[i])<10)
-                othersusedpoints[i] = " " + othersusedpoints[i];
-            result += (i+1) + "라운드 [" + "나 : " + usedpoints[i] +", 상대 : " + othersusedpoints[i] + "]<br>";
+        function serialize(me, you){
+            var result = "이번 게임에서 사용한 포인트<br>";
+            for(var i=0; i<me.length;i++){
+                if(parseInt(me[i])<10)
+                    me[i] = "&nbsp;" + me[i];
+                if(parseInt(you[i])<10)
+                    you[i] = "&nbsp;" + you[i];
+                result += (i+1) + "라운드 [" + " 나 : " + me[i] +", 상대 : " + you[i] + " ]<br>";
+            }
+            return result;
         }
+
         status(result);
     });
 
@@ -183,7 +187,7 @@ function login(fbid, fbname){
 
 
     socket.on('start', function (type, name, id) {
-
+                usedpoints = [];
                 $('#usercon').hide(500);
                 $('#chattitle').text(name+"님과의 채팅");
                 $('#conversation').empty();
