@@ -178,7 +178,7 @@ io.sockets.on('connection', function (socket) {
 
 
 	socket.on('adduser', function(facebookid, fbname){
-		if(users[facebookId]=undefined){
+		if(users[facebookId]!=undefined){
 			socket.emit('updatechat', '붕대맨', '이미 접속중입니다.');
 			return;
 		}
