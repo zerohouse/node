@@ -90,7 +90,7 @@ function login(fbid, fbname){
     $('#gamewin').show();
     $('#fblogin').hide(500);
 
-    var warringhtml = "<font size='6'><br></font>흑과백2<br><font size='4'>게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 아이디를 눌러주세요.</font>";
+    var warringhtml = "<font size='6'><br></font>흑과백2<br><font size='4'>게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 눌러주세요.</font>";
 
     socket.on('gamewinupdate', function(val){
         $('#gamewin').text(val);
