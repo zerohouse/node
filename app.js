@@ -133,7 +133,7 @@ io.sockets.on('connection', function (socket) {
 				console.log(users[socket.fbid].gamewin);
 				console.log(users[rival.fbid].gamewin);
 				if(socket.game.win>4){
-					var wins = users[socket.fbid].gamewin+1;
+					var wins = parseInt(users[socket.fbid].gamewin)+1;
 					console.log(wins);
 					redisClient.set(socket.fbid, wins, function(err, val){
 					});

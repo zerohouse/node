@@ -103,7 +103,7 @@ function login(fbid, fbname){
     });
 
     socket.on('updatechat', function (username, data) {
-        if(game.ing && (username!=rival.name || username!=$('#logintitle').text() ))
+        if(game.ing && !(username==rival.name || username==$('#logintitle').text() ))
             return;
         var con = $('#conversation');
         con.append('<li>'+username + ': ' + data + '</li>');
@@ -185,7 +185,7 @@ function login(fbid, fbname){
 
         function winplus(){
             var gamewin = $('#gamewin');
-            var win = gamewin.text();
+            var win = parseInt(gamewin.text());
             win++;
             gamewin.text(win);
         }
