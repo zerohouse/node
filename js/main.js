@@ -26,11 +26,11 @@
             version    : 'v2.1' // use version 2.1
         });
 
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
 
-        FB.Event.subscribe('login', fbConnected);
+        FB.Event.subscribe('auth.statusChange', function(){ FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+            })
+        });
     };
 
     (function(d, s, id) {
@@ -39,7 +39,6 @@
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-
     }(document, 'script', 'facebook-jssdk'));
 
     function fbConnected() {
