@@ -15,6 +15,8 @@
         });
     });
 
+    var usedpoints = [];
+
 
 
     function statusChangeCallback(response) {
@@ -143,7 +145,17 @@ function login(fbid, fbname){
         }
     });
 
+    socket.on('usedpoints', function(othersusedpoints){
+
+        var result = "<이번 게임에서 사용한 포인트><br>";
+        for(var i=0; i<usedpoints.length;){
+            result += (i+1) + "라운드 [" + "나 : " + usedpoints[i] +", 상대 : " + othersusedpoints[i] + "]<br>";
+        }
+        status(result);
+    });
+
     socket.on('winner', function(){
+        socket.emit('usedpoints', usedpoints);
         warring('게임 승리!!');
         status('게임에서 승리하였습니다.<br>게임이 종료되었습니다.');
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
@@ -155,6 +167,7 @@ function login(fbid, fbname){
     });
 
     socket.on('loser', function(){
+        socket.emit('usedpoints', usedpoints);
         warring('게임 패배ㅠㅠ');
         status('게임에서 패배하였습니다.<br>게임이 종료되었습니다.');
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
@@ -282,6 +295,7 @@ function login(fbid, fbname){
 
             if( 0 <= point  && point <= game.usablePoint ){
                 socket.emit('submitpoint', point);
+                usedpoints.push(point);
                 $('#submitpoint').attr('disabled', '');
                 $('#point').css('border','none');
                 $('#point').val('');

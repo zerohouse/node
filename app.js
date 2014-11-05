@@ -36,6 +36,15 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit('updatechat', users[socket.fbid].name, data);
 	});
 
+	socket.on('usedpoints', function(usedpoints){
+		try{
+		var rival = sockets[users[socket.game.rival].index];
+		rival.emit('usedpoints', usedpoints);}
+		catch(err){
+
+		}
+	});
+
 	socket.on('challenge', function (facebookId) {
 		sockets[users[facebookId].index].emit('challenge', users[socket.fbid].name, socket.fbid);
 	});
