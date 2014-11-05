@@ -85,7 +85,7 @@ function login(fbid, fbname){
     status('현재 접속자 창에서 다른 사용자의 이름을 눌러 대결을 신청해 보세요.');
 
     var socket = io.connect('http://54.65.20.191');
-    var game = {usablePoint : 99, round:1, rival: "", myid: fbid};
+    var game = {usablePoint : 99, round:1, rival: "", myid: fbid, ing:false};
 
     $('#logintitle').text(fbname);
     $('#logincontents').empty();
@@ -103,6 +103,8 @@ function login(fbid, fbname){
     });
 
     socket.on('updatechat', function (username, data) {
+        if(game.ing && (username!=rival.name || username!=$('#logintitle').text() ))
+            return;
         var con = $('#conversation');
         con.append('<li>'+username + ': ' + data + '</li>');
         con.scrollTop(1000000);
@@ -112,6 +114,7 @@ function login(fbid, fbname){
             setTimeout(function(){
                     $('#warring').html(warringhtml).show();}, 4000
             );
+            game.ing = false;
             status('상대가 나갔습니다.');
             $('#usercon').show(500);
             $('#chattitle').text("채팅");
@@ -126,6 +129,11 @@ function login(fbid, fbname){
                 $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + ' ( 나 )</li>');
                 return;
             }
+            if(value.ing) {
+                $('#users').append("<li style='cursor:auto;color:gray' data-id="+ key + ">" + value.name + ' ( 게임중 )</li>');
+                return;
+            }
+
             $('#users').append("<li data-id="+ key + ">" + value.name + '</li>');
             $('#users > li:last-child').click(function (){
                 if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
@@ -167,6 +175,7 @@ function login(fbid, fbname){
         warring('게임 승리!!');
         winplus();
         status('게임에서 승리하였습니다.<br>게임이 종료되었습니다.');
+        game.ing = false;
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
         );
         $('#usercon').show(500);
@@ -186,6 +195,7 @@ function login(fbid, fbname){
         socket.emit('usedpoints', usedpoints);
         warring('게임 패배ㅠㅠ');
         status('게임에서 패배하였습니다.<br>게임이 종료되었습니다.');
+        game.ing = false;
         setTimeout(function(){$('#warring').html(warringhtml).show();}, 4000
         );
         $('#usercon').show(500);
@@ -204,7 +214,7 @@ function login(fbid, fbname){
 
                 phaseAdopt(5,5);
                 game = {usablePoint : 99, round:1, rival: {name:name,id:id}};
-
+                game.ing = true;
                 $('#point').attr('placeholder', game.usablePoint);
 
                 status(name+"님 과의 게임이 시작되었습니다.<br>");

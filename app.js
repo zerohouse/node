@@ -59,6 +59,8 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('gameStart', function (facebookId) {
+		users[socket.fbid].ing = true;
+		users[facebookId].ing = true;
 		var rival = sockets[users[facebookId].index];
 		rival.join(facebookId);
 		socket.join(facebookId);
@@ -138,6 +140,8 @@ io.sockets.on('connection', function (socket) {
 
 					socket.emit('winner');
 					rival.emit('loser');
+					users[socket.fbid].ing = false;
+					users[facebookId].ing = false;
 					return;
 				}
 				rival.emit('turnOver', false);
@@ -152,6 +156,8 @@ io.sockets.on('connection', function (socket) {
 				});
 				rival.emit('winner');
 				socket.emit('loser');
+				users[socket.fbid].ing = false;
+				users[facebookId].ing = false;
 				return;
 			}
 			socket.emit('turnOver',false);
@@ -188,7 +194,7 @@ io.sockets.on('connection', function (socket) {
 				}
 			});
 
-		users[facebookid] = {name : fbname, index : index, gamewin: win};
+		users[facebookid] = {name : fbname, index : index, gamewin: win, ing:false};
 		index++;
 
 		socket.emit('updatechat', '붕대맨', '흑과백에 접속하셨습니다.');
@@ -203,6 +209,7 @@ io.sockets.on('connection', function (socket) {
 				var rival = sockets[users[socket.game.rival].index];
 				rival.leave(socket.game.room);
 				rival.emit('out');
+				users[socket.game.rival].ing = false;
 				rival.game = undefined;
 				rival.leave(socket.fbid);
 			}
