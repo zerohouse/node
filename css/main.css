@@ -237,3 +237,38 @@ ul, li{
 .list li{
     margin:5px;
 }
+
+.close{
+    cursor:pointer;
+    background: url('close.png');
+    background-size: 100% 100%;
+    width: 14px;
+    height: 14px;
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index:150;
+}
+
+.closeicon{
+    background-image: url('close2.png');
+}
+
+#gameinfo{
+    padding: 0;width: 630px;height: 510px;
+}
+
+
+#menu{
+    position:fixed;
+    z-index:200;
+    top:0;
+    right:30px;
+}
+#menu li{
+    display:none;
+    margin:10px;
+    text-align:center;
+    cursor:pointer;
+}

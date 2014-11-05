@@ -1,7 +1,19 @@
     $('#gameContainer').draggable();
     $('.foot').each(function(){$(this).draggable();});
+    $('.close').each(function(){
+        $(this).click(function(){
+            var parent = $(this).parent().parent();
+            parent.hide(500);
+            $('#con'+parent.attr('id')).show(500);
+        });
+    });
 
-
+    $('#menu li').each(function(){
+        $(this).click(function(){
+            $(this).hide(500);
+            $('#'+$(this).attr('id').substring(3)).show(500);
+        });
+    });
 
 
 
