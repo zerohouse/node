@@ -38,8 +38,10 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('usedpoints', function(usedpoints){
 		try{
+			console.log(usedpoints);
 		var rival = sockets[users[socket.game.rival].index];
-		rival.emit('usedpoints', usedpoints);}
+		rival.emit('usedpoints', usedpoints);
+		}
 		catch(err){
 
 		}
@@ -114,6 +116,7 @@ io.sockets.on('connection', function (socket) {
 
 		function turnOver(point){
 			var submit = socket.game.submittedPoint;
+			console.log(submit);
 			if(submit==-1){
 				setTimeout(turnOver(point), 1000);
 				console.log('err');
