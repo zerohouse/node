@@ -1,7 +1,7 @@
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
 body{
-    font-family: 'Nanum Gothic Coding', serif;
+    font-family: 'Nanum Gothic', serif;
     padding:0;
     margin:0;
     background-color:#F1F4F9;
