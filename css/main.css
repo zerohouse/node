@@ -52,6 +52,7 @@ ul, li{
 }
 
 #dashboard li{
+    overflow:hidden;
     width: 78px;
     height: 40px;
     float: left;
