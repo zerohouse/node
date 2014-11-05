@@ -175,6 +175,9 @@ function login(fbid, fbname){
 
                 phaseAdopt(5,5);
                 game = {usablePoint : 99, round:1, rival: {name:name,id:id}};
+
+                $('#point').attr('placeholder', game.usablePoint);
+
                 status(name+"님 과의 게임이 시작되었습니다.<br>");
                 $('#playerid').text(name);
 
@@ -281,8 +284,12 @@ function login(fbid, fbname){
                 socket.emit('submitpoint', point);
                 $('#submitpoint').attr('disabled', '');
                 $('#point').css('border','none');
+                $('#point').val('');
+                game.usablePoint -= point;
+                $('#point').attr('placeholder', game.usablePoint);
                 status(point+' 포인트를 냈습니다.');
                 warring(point + '포인트 제출');
+
                return;
             }
             status("Err! : 0~"+game.usablePoint+" 사이의 포인트를 입력해주세요.")
