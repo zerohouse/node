@@ -43,6 +43,7 @@ io.sockets.on('connection', function (socket) {
 			rival.emit('yourusedpoints', usedpoints);
 			setTimeout(function(){
 				socket.leave(rival.fbid);
+				socket.game = undefined;
 			}, 1000);
 		}
 		catch(err){
