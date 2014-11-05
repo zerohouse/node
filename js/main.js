@@ -76,7 +76,7 @@
 
 
 
-
+    var game
 
 function login(fbid, fbname){
 
@@ -89,6 +89,7 @@ function login(fbid, fbname){
     $('#logintitle').text(fbname);
     $('#logincontents').html('<br>안녕하세요! 흑과 백2입니다.');
     $('#fblogin').hide(500);
+
     var warringhtml = "<font size='6'><br></font>흑과백2<br><font size='4'>게임을 시작하려면 접속자 목록에서<br> 게임하실분의 이름을 아이디를 눌러주세요.</font>";
 
     socket.on('connect', function(){
@@ -112,16 +113,17 @@ function login(fbid, fbname){
     });
 
     socket.on('updateusers', function(data) {
+        console.log(data);
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
                 $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + ' ( 나 )</li>');
                 return;
             }
-            $('#users').append("<li data-id="+ value.id + ">" + value.name + '</li>');
+            $('#users').append("<li data-id="+ key + ">" + value.name + '</li>');
             $('#users > li:last-child').click(function (){
                 if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
-                    socket.emit('challenge', value.id);
+                    socket.emit('challenge', key);
             });
 
         });

@@ -36,6 +36,7 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('challenge', function (facebookId) {
+		console.log(facebookId);
 		sockets[users[facebookId].index].emit('challenge', users[facebookId].name, facebookId);
 	});
 
