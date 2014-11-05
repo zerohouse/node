@@ -83,8 +83,8 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('submitpoint', function (point) {
 		try {
+			console.log('submit', point, socket.fbid);
 			var rival = socket.broadcast.to(socket.game.room);
-
 			socket.game.point -= point;
 			var phase = whichPhase(socket.game.point);
 			socket.game.phase = phase;
