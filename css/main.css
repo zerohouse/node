@@ -294,6 +294,11 @@ ul, li{
 
 @media (max-width: 650px)  {
 
+    #menu{
+        right:0;
+        font-size:13px;
+    }
+
     #pointWrap {
         width: 100%;
         left: inherit;

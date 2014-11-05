@@ -282,7 +282,7 @@ function login(fbid, fbname){
                 $('#submitpoint').attr('disabled', '');
                 $('#point').css('border','none');
                 status(point+' 포인트를 냈습니다.');
-                warrring(point + '포인트 제출')
+                warring(point + '포인트 제출');
                return;
             }
             status("Err! : 0~"+game.usablePoint+" 사이의 포인트를 입력해주세요.")
