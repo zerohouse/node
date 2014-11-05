@@ -286,3 +286,97 @@ ul, li{
     line-height: 95px;
     display:none;
 }
+
+
+
+
+
+
+@media (max-width: 650px)  {
+
+    #pointWrap {
+        width: 100%;
+        left: inherit;
+        bottom: inherit;
+        height: 100px;
+    }
+
+    #point {
+        margin: auto;
+        display: block;
+    }
+
+    #blackwhite {
+        position: relative;
+        top: inherit;
+        left: inherit;
+        width: 80%;
+        margin: auto;
+        text-align: center;
+
+    }
+
+    #dashboard {
+        height: 60px;
+    }
+
+    #blackwhite li {
+
+        display: inline-block;
+        width: 48%;
+        border: 1px solid #000;
+
+    }
+
+    #gameContainer {
+        width: 98%;
+        padding: 0;
+        padding-top: 20px;
+        height: 520px;
+    }
+
+    #warring {
+        width: 100%;
+
+    }
+
+    #char {
+        display: none;
+    }
+
+    #gamebody {
+        top: 20;
+        width: 100%;
+        position: relative;
+        clear: both;
+        height: 100%;
+    }
+
+    #pointWrap {
+        display: inline-block;
+        position: relative;
+    }
+
+    .foot, #chat, #gameinfo {
+        width: 94%;
+        margin: 1%;
+        padding: 2%;
+    }
+
+    #inputarea {
+        left: 0;
+    }
+
+    iframe {
+        left: 0;
+    }
+
+    #data {
+        width: 80%
+    }
+
+    #datasend {
+        width: 20%
+    }
+
+}
