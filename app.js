@@ -95,13 +95,17 @@ io.sockets.on('connection', function (socket) {
 			if (socket.game.submittedPoint == -1) {
 				rival.game.submittedPoint = point;
 				socket.game.submittedPoint = point;
-				doTurn(false);
+				socket.emit('rivaldoing');
+				rival.emit('doTurn', false);
+				console.log('you');
 				return;
 			}
 			turnOver(point);
-			doTurn(true);
+			rival.emit('rivaldoing');
+			socket.emit('doTurn', true);
 			rival.game.submittedPoint = -1;
 			socket.game.submittedPoint = -1;
+			console.log('me');
 		}
 		catch(err){console.log(err);}
 
@@ -113,16 +117,6 @@ io.sockets.on('connection', function (socket) {
 		}
 
 
-
-		function doTurn(myTurn){
-			if(myTurn){
-				rival.emit('rivaldoing');
-				socket.emit('doTurn', true);
-				return;
-			}
-			socket.emit('rivaldoing');
-			rival.emit('doTurn', false);
-		}
 
 		function turnOver(point){
 			var submit = socket.game.submittedPoint;
