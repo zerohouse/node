@@ -78,8 +78,8 @@
 
 
 
-    function challenge(key){
-        if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
+    function challenge(name, key){
+        if(confirm(name+"님께 게임 요청을 보낼까요?"))
             socket.emit('challenge', key);
     }
 
@@ -141,7 +141,7 @@ function login(fbid, fbname){
                 return;
             }
 
-            $('#users').append("<li onclick=\"challenge('"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
+            $('#users').append("<li onclick=\"challenge('"+value.name+"','"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
 
         });
     });
