@@ -162,15 +162,17 @@ io.sockets.on('connection', function (socket) {
 			console.log(socket.fbid ,usedpoints);
 			var rival = socket.broadcast.to(socket.game.room);
 			rival.emit('yourusedpoints', usedpoints);
+			users[socket.fbid].ing = false;
+			users[rival.fbid].ing = false;
+			socket.leave(rival.fbid);
+
 			setTimeout(function(){
-				users[socket.fbid].ing = false;
-				users[rival.fbid].ing = false;
-				socket.leave(rival.fbid);
 				socket.game = undefined;
 				rival.game = undefined;
 				socket.emit('updateusers', users);
 				rival.emit('updateusers', users);
 				console.log(users);
+
 			}, 1000);
 		}
 		catch(err){
