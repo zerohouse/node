@@ -141,7 +141,7 @@ function login(fbid, fbname){
                 return;
             }
 
-            $('#users').append("<li onclick=\"challenge('"+value.name+"','"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
+            $('#users').prepend("<li onclick=\"challenge('"+value.name+"','"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
 
         });
     });
