@@ -170,6 +170,7 @@ io.sockets.on('connection', function (socket) {
 				rival.game = undefined;
 				socket.emit('updateusers', users);
 				rival.emit('updateusers', users);
+				console.log(users);
 			}, 1000);
 		}
 		catch(err){
