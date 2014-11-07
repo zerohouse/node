@@ -36,22 +36,6 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit('updatechat', users[socket.fbid].name, data);
 	});
 
-	socket.on('usedpoints', function(usedpoints){
-		try{
-			console.log(socket.fbid ,usedpoints);
-			var rival = socket.broadcast.to(socket.game.room);
-			rival.emit('yourusedpoints', usedpoints);
-			setTimeout(function(){
-				socket.emit('updateusers', users);
-				socket.leave(rival.fbid);
-				socket.game = undefined;
-			}, 1000);
-		}
-		catch(err){
-
-		}
-	});
-
 	socket.on('challenge', function (facebookId) {
 		if(sockets[users[facebookId].index].game!=undefined){
 			socket.emit('updatechat', '붕대맨', '상대가 게임 중입니다.');
@@ -174,6 +158,24 @@ io.sockets.on('connection', function (socket) {
 
 
 
+	socket.on('usedpoints', function(usedpoints){
+		try{
+			console.log(socket.fbid ,usedpoints);
+			var rival = socket.broadcast.to(socket.game.room);
+			rival.emit('yourusedpoints', usedpoints);
+			setTimeout(function(){
+				socket.emit('updateusers', users);
+				socket.leave(rival.fbid);
+				socket.game = undefined;
+				rival.game = undefined;
+			}, 1000);
+		}
+		catch(err){
+
+		}
+	});
+
+
 
 	socket.on('decline', function (facebookId) {
 		sockets[users[facebookId].index].emit('decline', users[socket.fbid].name);
@@ -228,7 +230,6 @@ io.sockets.on('connection', function (socket) {
 		delete users[socket.fbid];
 		io.sockets.emit('updateusers', users);
 	});
-
 
 
 
