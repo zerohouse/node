@@ -1,5 +1,3 @@
-    $('#gameContainer').draggable();
-    $('.foot').each(function(){$(this).draggable();});
     $('.close').each(function(){
         $(this).click(function(){
             var parent = $(this).parent().parent();
@@ -123,6 +121,7 @@ function login(fbid, fbname){
     });
 
     socket.on('updateusers', function(data) {
+        console.log(data);
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
