@@ -78,7 +78,7 @@
 
 
     var socket;
-
+    var game;
     function challenge(name, key){
         if(confirm(name+"님께 게임 요청을 보낼까요?"))
             socket.emit('challenge', key);
@@ -92,7 +92,7 @@ function login(fbid, fbname){
     status('현재 접속자 창에서 다른 사용자의 이름을 눌러 대결을 신청해 보세요.');
 
     socket = io.connect('http://54.65.20.191');
-    var game = {usablePoint : 99, round:1, rival: "", myid: fbid, ing:false};
+    game = {usablePoint : 99, round:1, rival: "", myid: fbid, ing:false};
 
     $('#logintitle').text(fbname);
     $('#logincontents').empty();
