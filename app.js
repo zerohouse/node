@@ -38,7 +38,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('usedpoints', function(usedpoints){
 		try{
-			console.log(usedpoints);
+			console.log(socket.fbid ,usedpoints);
 			var rival = socket.broadcast.to(socket.game.room);
 			rival.emit('yourusedpoints', usedpoints);
 			setTimeout(function(){
@@ -86,7 +86,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('submitpoint', function (point) {
 		try {
-			console.log('submit', point, socket.fbid);
+			console.log(socket.fbid ,'submit', point, socket.fbid);
 			var rival = sockets[users[socket.game.rival].index];
 			socket.game.point -= point;
 			var phase = whichPhase(socket.game.point);
@@ -100,7 +100,6 @@ io.sockets.on('connection', function (socket) {
 				socket.game.submittedPoint = point;
 				socket.emit('rivaldoing');
 				rival.emit('doTurn', false);
-				console.log('you');
 				return;
 			}
 			turnOver(point);
@@ -108,7 +107,6 @@ io.sockets.on('connection', function (socket) {
 			socket.emit('doTurn', true);
 			rival.game.submittedPoint = -1;
 			socket.game.submittedPoint = -1;
-			console.log('me');
 		}
 		catch(err){console.log(err);}
 
@@ -131,11 +129,10 @@ io.sockets.on('connection', function (socket) {
 
 			if(parseInt(submit)<parseInt(point)){
 				socket.game.win++;
-				console.log(users[socket.fbid].gamewin);
-				console.log(users[rival.fbid].gamewin);
+				console.log('win' ,users[socket.fbid].gamewin, users[rival.fbid].gamewin);
 				if(socket.game.win>4){
 					var wins = parseInt(users[socket.fbid].gamewin)+1;
-					console.log(wins);
+					console.log('win', wins);
 					redisClient.set(socket.fbid, wins, function(err, val){
 					});
 
@@ -151,10 +148,11 @@ io.sockets.on('connection', function (socket) {
 			}
 			rival.game.win++;
 			if(rival.game.win>4){
-				var wins = users[rival.fbid].gamewin + 1;
-				console.log(wins);
+				var wins = parseInt(users[rival.fbid].gamewin)+1;
+				console.log('win', wins);
 				redisClient.set(rival.fbid, wins, function(err, val){
 				});
+
 				rival.emit('winner');
 				socket.emit('loser');
 				users[socket.fbid].ing = false;

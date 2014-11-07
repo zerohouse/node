@@ -338,6 +338,11 @@ function login(fbid, fbname){
 
         });
 
+        $( window ).unload(function() {
+            if(game.ing)
+                confirm("게임중입니다. 이동하시겠습니까?");
+        });
+
     });
 
     function status(message){
