@@ -1,3 +1,7 @@
+
+
+
+
     $('.close').each(function(){
         $(this).click(function(){
             var parent = $(this).parent().parent();
@@ -74,6 +78,10 @@
 
 
 
+    function challenge(key){
+        if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
+            socket.emit('challenge', key);
+    }
 
 
 
@@ -133,11 +141,7 @@ function login(fbid, fbname){
                 return;
             }
 
-            $('#users').append("<li data-id="+ key + ">" + value.name + '</li>');
-            $('#users > li:last-child').click(function (){
-                if(confirm(value.name+"님께 게임 요청을 보낼까요?"))
-                    socket.emit('challenge', key);
-            });
+            $('#users').append("<li onclick=\"challange('"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
 
         });
     });
