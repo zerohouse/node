@@ -130,11 +130,9 @@ function login(fbid, fbname){
     });
 
     socket.on('updateusers', function(data) {
-        console.log(data);
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
-                console.log('myid', game.myid);
                 $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + ' ( 나 )</li>');
                 return;
             }
@@ -143,7 +141,6 @@ function login(fbid, fbname){
                 return;
             }
 
-            console.log('myid', game.myid);
             $('#users').prepend("<li onclick=\"challenge('"+value.name+"','"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
 
         });

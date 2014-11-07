@@ -114,7 +114,6 @@ io.sockets.on('connection', function (socket) {
 
 			if(parseInt(submit)<parseInt(point)){
 				socket.game.win++;
-				console.log('win' ,users[socket.fbid].gamewin, users[rival.fbid].gamewin);
 				if(socket.game.win>4){
 					try {
 						var wins = parseInt(users[socket.fbid].gamewin) + 1;
@@ -170,6 +169,7 @@ io.sockets.on('connection', function (socket) {
 				socket.game = undefined;
 				rival.game = undefined;
 				socket.emit('updateusers', users);
+				rival.emit('updateusers', users);
 			}, 1000);
 		}
 		catch(err){
