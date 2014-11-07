@@ -132,11 +132,13 @@ io.sockets.on('connection', function (socket) {
 				socket.game.win++;
 				console.log('win' ,users[socket.fbid].gamewin, users[rival.fbid].gamewin);
 				if(socket.game.win>4){
-					var wins = parseInt(users[socket.fbid].gamewin)+1;
-					console.log('win', wins);
-					redisClient.set(socket.fbid, wins, function(err, val){
-					});
-
+					try {
+						var wins = parseInt(users[socket.fbid].gamewin) + 1;
+						console.log('win', wins);
+						redisClient.set(socket.fbid, wins, function (err, val) {
+						});
+					}
+					catch(err){}
 					socket.emit('winner');
 					rival.emit('loser');
 					users[socket.fbid].ing = false;
@@ -149,11 +151,13 @@ io.sockets.on('connection', function (socket) {
 			}
 			rival.game.win++;
 			if(rival.game.win>4){
-				var wins = parseInt(users[rival.fbid].gamewin)+1;
-				console.log('win', wins);
-				redisClient.set(rival.fbid, wins, function(err, val){
-				});
-
+				try {
+					var wins = parseInt(users[rival.fbid].gamewin) + 1;
+					console.log('win', wins);
+					redisClient.set(rival.fbid, wins, function (err, val) {
+					});
+				}
+				catch(err){}
 				rival.emit('winner');
 				socket.emit('loser');
 				users[socket.fbid].ing = false;
