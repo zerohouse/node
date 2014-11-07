@@ -134,6 +134,7 @@ function login(fbid, fbname){
         $('#users').empty();
         $.each(data, function(key, value) {
             if(key == game.myid) {
+                console.log('myid', game.myid);
                 $('#users').append("<li style='cursor:auto;color:darkred'>" + value.name + ' ( 나 )</li>');
                 return;
             }
@@ -142,6 +143,7 @@ function login(fbid, fbname){
                 return;
             }
 
+            console.log('myid', game.myid);
             $('#users').prepend("<li onclick=\"challenge('"+value.name+"','"+ key +"')\" data-id="+ key + ">" + value.name + '</li>');
 
         });
@@ -217,7 +219,9 @@ function login(fbid, fbname){
                 $('#conversation').empty();
 
                 phaseAdopt(5,5);
-                game = {usablePoint : 99, round:1, rival: {name:name,id:id}};
+                game.usablePoint = 99;
+                game.round =1;
+                game.rival ={name:name,id:id};
                 game.ing = true;
                 $('#point').attr('placeholder', game.usablePoint);
 
