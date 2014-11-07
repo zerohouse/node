@@ -164,10 +164,12 @@ io.sockets.on('connection', function (socket) {
 			var rival = socket.broadcast.to(socket.game.room);
 			rival.emit('yourusedpoints', usedpoints);
 			setTimeout(function(){
-				socket.emit('updateusers', users);
+				users[socket.fbid].ing = false;
+				users[rival.fbid].ing = false;
 				socket.leave(rival.fbid);
 				socket.game = undefined;
 				rival.game = undefined;
+				socket.emit('updateusers', users);
 			}, 1000);
 		}
 		catch(err){
