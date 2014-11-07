@@ -42,6 +42,7 @@ io.sockets.on('connection', function (socket) {
 			var rival = socket.broadcast.to(socket.game.room);
 			rival.emit('yourusedpoints', usedpoints);
 			setTimeout(function(){
+				socket.emit('updateusers', users);
 				socket.leave(rival.fbid);
 				socket.game = undefined;
 			}, 1000);
