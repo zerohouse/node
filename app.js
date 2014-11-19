@@ -2,30 +2,22 @@ var express = require('express')
 	, app = express()
 	, http = require('http')
 	, server = http.createServer(app)
-	, io = require('socket.io').listen(server)
-var redisClient = require('redis').createClient();
+	, io = require('socket.io').listen(server);
 
-server.listen(80);
+server.listen(8000);
 
-// 라우팅 
-app.get('/', function (req, res) {
-	res.sendfile(__dirname + '/index.html');
-});
 
-app.get('/css/:id', function (req, res) {
-	res.sendfile(__dirname + '/css/' + req.params.id);
-});
-
-app.get('/js/:id', function (req, res) {
-	res.sendfile(__dirname + '/js/' + req.params.id);
-});
+httpProxy = require('http-proxy');
+//
+// Create your proxy server and set the target in the options.
+//
+httpProxy.createProxyServer({target:'http://localhost:8080'}).listen(80);
 
 var users = {};
 var sockets = [];
 var index = 0;
 
 io.sockets.on('connection', function (socket) {
-
 	socket.on('sendchat', function (data) {
 		if(socket.game!=undefined){
 			var rival = socket.broadcast.to(socket.game.room);
@@ -118,8 +110,7 @@ io.sockets.on('connection', function (socket) {
 					try {
 						var wins = parseInt(users[socket.fbid].gamewin) + 1;
 						console.log('win', wins);
-						redisClient.set(socket.fbid, wins, function (err, val) {
-						});
+
 					}
 					catch(err){}
 					socket.emit('winner');
@@ -137,8 +128,6 @@ io.sockets.on('connection', function (socket) {
 				try {
 					var wins = parseInt(users[rival.fbid].gamewin) + 1;
 					console.log('win', wins);
-					redisClient.set(rival.fbid, wins, function (err, val) {
-					});
 				}
 				catch(err){}
 				rival.emit('winner');
@@ -197,13 +186,6 @@ io.sockets.on('connection', function (socket) {
 		sockets.push(socket);
 		var win = 0;
 
-			redisClient.get(facebookid, function(err, val){
-				if(val!=null){
-					win = val;
-					socket.emit('gamewinupdate', win);
-					users[facebookid].gamewin = win;
-				}
-			});
 
 		users[facebookid] = {name : fbname, index : index, gamewin: win, ing:false};
 		index++;
