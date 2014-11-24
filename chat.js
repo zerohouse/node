@@ -21,6 +21,8 @@ var chat = {
             });
 
             socket.on('game', function(data){
+                if(socket.room==undefined)
+                    return;
                 socket.broadcast.to(socket.room).emit('game', data);
             });
 
@@ -30,6 +32,11 @@ var chat = {
 
             socket.on('disconnect', function () {
                 chat.leaveRoom(socket);
+                if(socket.room==undefined)
+                    return;
+                socket.broadcast.to(socket.room).emit('game', {
+                    type : 'youwin'
+                });
             });
         });
         return this;
