@@ -81,7 +81,7 @@ var chat = {
             return;
         if(socket.user == undefined)
             return;
-        chat.chat(socket, { chat: socket.user.name +'님이 나갔습니다.'});
+        chat.broadCast(socket, { chat: socket.user.name +'님이 나갔습니다.'});
         socket.leave(socket.room);
         chat.rooms[socket.room].users--;
         if(chat.rooms[socket.room].users<=0 && socket.room!='square'){
@@ -100,6 +100,11 @@ var chat = {
     chat: function(socket, message){
         message.name = socket.user.name;
         chat.io.to(socket.room).emit('chat', message);
+    },
+
+    broadCast: function(socket, message){
+        message.name = socket.user.name;
+        socket.broadcast.to(socket.room).emit('chat', message);
     }
 };
 
