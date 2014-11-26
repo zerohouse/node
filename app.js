@@ -1,8 +1,6 @@
 var express = require('express')
-	, app = express()
-	, http = require('http')
-	, animalserver = http.createServer(app)
-	, bnwserver = http.createServer(app)
+	, animalserver = http.createServer(express())
+	, bnwserver = http.createServer(express())
 	, animalio = require('socket.io').listen(animalserver)
 	, bnwio = require('socket.io').listen(bnwserver);
 
