@@ -1,4 +1,5 @@
 var express = require('express')
+	, http = require('http')
 	, animalserver = http.createServer(express())
 	, bnwserver = http.createServer(express())
 	, animalio = require('socket.io').listen(animalserver)
