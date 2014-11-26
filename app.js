@@ -1,23 +1,24 @@
 var express = require('express')
-	, express2 = require('express')
+	, app = express()
 	, http = require('http')
-	, http2 = require('http')
-	, animalserver = http.createServer(express())
-	, bnwserver = http2.createServer(express2())
-	, animalio = require('socket.io').listen(animalserver)
-	, bnwio = require('socket.io').listen(bnwserver);
+	, server = http.createServer(app)
+	, io = require('socket.io').listen(server);
+server.listen(8000);
+require('./chat.js').setIo(io).setMaker('AnimalChess');
 
-animalserver.listen(8000);
-require('./chat.js').setIo(animalio).setMaker('AnimalChess');
-bnwserver.listen(8001);
-require('./chat.js').setIo(bnwio).setMaker('BlackAndWhite');
+var express = require('express')
+	, app = express()
+	, http = require('http')
+	, server = http.createServer(app)
+	, io = require('socket.io').listen(server);
+server.listen(8001);
+require('./chat.js').setIo(io).setMaker('BlacknWhite');
 
 
 
 
 httpProxy = require('http-proxy');
 httpProxy.createProxyServer({target:'http://localhost:8080'}).listen(80);
-
 
 
 
