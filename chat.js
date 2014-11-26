@@ -43,7 +43,7 @@ var chat = {
     },
 
     setMaker :function(maker){
-        chat.rooms.maker = maker;
+        chat.rooms.square.maker = maker;
         return this;
     },
 
