@@ -42,13 +42,18 @@ var chat = {
         return this;
     },
 
+    setMaker :function(maker){
+        chat.rooms.maker = maker;
+        return this;
+    },
+
     rooms : {
         square:{
             name:'광장',
             users:0,
             maxusers:1000,
             roomid:'square',
-            maker:'animal',
+            maker:'',
             time:""
         }
     },
